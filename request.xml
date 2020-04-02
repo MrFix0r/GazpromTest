@@ -2,10 +2,10 @@
                   xmlns:gs="http://spring.io/guides/gs-producing-web-service">
     <soapenv:Header/>
     <soapenv:Body>
-        <gs:getCurrencyConvRequest>
+        <gs:currencyConvRequest>
             <gs:code>BRL</gs:code>
             <gs:op>0</gs:op>
             <gs:amount>150.00</gs:amount>
-        </gs:getCurrencyConvRequest>
+        </gs:currencyConvRequest>
     </soapenv:Body>
 </soapenv:Envelope>
