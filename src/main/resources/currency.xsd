@@ -4,7 +4,7 @@
     <xs:element name="getCurrencyConvRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="code" type="xs:string"/>
+                <xs:element name="code" type="tns:currencyCode"/>
                 <xs:element name="op" type="xs:string"/>
                 <xs:element name="amount" type="xs:int"/>
             </xs:sequence>
@@ -26,5 +26,44 @@
             <xs:element name="error" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:simpleType name="currencyCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="AUD"/>
+            <xs:enumeration value="AZN"/>
+            <xs:enumeration value="GBP"/>
+            <xs:enumeration value="AMD"/>
+            <xs:enumeration value="BYN"/>
+            <xs:enumeration value="BGN"/>
+            <xs:enumeration value="BRL"/>
+            <xs:enumeration value="HUF"/>
+            <xs:enumeration value="HKD"/>
+            <xs:enumeration value="DKK"/>
+            <xs:enumeration value="USD"/>
+            <xs:enumeration value="EUR"/>
+            <xs:enumeration value="INR"/>
+            <xs:enumeration value="KZT"/>
+            <xs:enumeration value="CAD"/>
+            <xs:enumeration value="KGS"/>
+            <xs:enumeration value="CNY"/>
+            <xs:enumeration value="MDL"/>
+            <xs:enumeration value="NOK"/>
+            <xs:enumeration value="PLN"/>
+            <xs:enumeration value="RON"/>
+            <xs:enumeration value="XDR"/>
+            <xs:enumeration value="SGD"/>
+            <xs:enumeration value="TJS"/>
+            <xs:enumeration value="TRY"/>
+            <xs:enumeration value="TMT"/>
+            <xs:enumeration value="UZS"/>
+            <xs:enumeration value="UAH"/>
+            <xs:enumeration value="CZK"/>
+            <xs:enumeration value="SEK"/>
+            <xs:enumeration value="CHF"/>
+            <xs:enumeration value="ZAR"/>
+            <xs:enumeration value="KRW"/>
+            <xs:enumeration value="JPY"/>
+        </xs:restriction>
+    </xs:simpleType>
 
 </xs:schema>

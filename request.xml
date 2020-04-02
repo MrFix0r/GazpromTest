@@ -3,7 +3,7 @@
     <soapenv:Header/>
     <soapenv:Body>
         <gs:getCurrencyConvRequest>
-            <gs:code>Spain</gs:code>
+            <gs:code>BRL</gs:code>
             <gs:op>Spain</gs:op>
             <gs:amount>100</gs:amount>
         </gs:getCurrencyConvRequest>
