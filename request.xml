@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://spring.io/guides/gs-producing-web-service">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getCurrencyConvRequest>
+            <gs:code>Spain</gs:code>
+            <gs:op>Spain</gs:op>
+            <gs:amount>100</gs:amount>
+        </gs:getCurrencyConvRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
