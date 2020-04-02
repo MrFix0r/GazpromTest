@@ -5,8 +5,8 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="code" type="tns:currencyCode"/>
-                <xs:element name="op" type="xs:string"/>
-                <xs:element name="amount" type="xs:int"/>
+                <xs:element name="op" type="tns:currOperation"/>
+                <xs:element name="amount" type="tns:currAmount"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -63,6 +63,19 @@
             <xs:enumeration value="ZAR"/>
             <xs:enumeration value="KRW"/>
             <xs:enumeration value="JPY"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="currOperation">
+        <xs:restriction base="xs:int">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="currAmount">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d+[.][0-9][0-9]"/>
         </xs:restriction>
     </xs:simpleType>
 

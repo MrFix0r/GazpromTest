@@ -4,8 +4,8 @@
     <soapenv:Body>
         <gs:getCurrencyConvRequest>
             <gs:code>BRL</gs:code>
-            <gs:op>Spain</gs:op>
-            <gs:amount>100</gs:amount>
+            <gs:op>0</gs:op>
+            <gs:amount>150.00</gs:amount>
         </gs:getCurrencyConvRequest>
     </soapenv:Body>
 </soapenv:Envelope>
