@@ -21,7 +21,7 @@
 
     <xs:complexType name="currResponse">
         <xs:sequence>
-            <xs:element name="convAmount" type="xs:int"/>
+            <xs:element name="convAmount" type="xs:string"/>
             <xs:element name="status" type="xs:int"/>
             <xs:element name="error" type="xs:string"/>
         </xs:sequence>

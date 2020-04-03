@@ -22,14 +22,9 @@ public class ServiceEndpoint {
     @ResponsePayload
     public CurrencyConvResponse getCurrencyConv(@RequestPayload CurrencyConvRequest request) {
 
-        //TODO delete these after final ver
-//        CurrencyConvResponse response = new CurrencyConvResponse();
-//        CurrResponse tmpResponse = new CurrResponse();
-//        tmpResponse.setConvAmount(100);
-//        tmpResponse.setError("Thats good");
-//        tmpResponse.setStatus(200);
-//        response.setCurrResponse(tmpResponse);
+        CurrencyConvResponse response = CurrConverter.convertCurrency(request);
+        System.out.println("Итоговая сумма = " + response.getCurrResponse().getConvAmount()); //duplicate to console
 
-        return CurrConverter.convertCurrency(request);
+        return response;
     }
 }

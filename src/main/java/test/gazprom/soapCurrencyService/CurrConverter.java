@@ -1,5 +1,6 @@
 package test.gazprom.soapCurrencyService;
 
+import io.spring.guides.gs_producing_web_service.CurrResponse;
 import io.spring.guides.gs_producing_web_service.CurrencyConvRequest;
 import io.spring.guides.gs_producing_web_service.CurrencyConvResponse;
 import org.w3c.dom.*;
@@ -8,6 +9,9 @@ import org.xml.sax.InputSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.net.*;
@@ -15,7 +19,15 @@ import java.util.Scanner;
 
 class CurrConverter {
 
-    private static Map<String,String> currencyHandbook = new HashMap<>();
+    static class LocalCurr {
+
+        LocalCurr() {};
+
+        String nominal;
+        String value;
+    }
+
+    private static Map<String,LocalCurr> currencyHandbook = new HashMap<>();
     private static String content = null;
 
     static CurrencyConvResponse convertCurrency(CurrencyConvRequest request) {
@@ -24,8 +36,46 @@ class CurrConverter {
     }
 
     private static CurrencyConvResponse makeConvertation(CurrencyConvRequest request) {
-        //TODO next day (dont remember about convertationExceptions - need try/catch, point 5 from task)
-        return new CurrencyConvResponse();
+        CurrencyConvResponse response = new CurrencyConvResponse();
+        CurrResponse currResponse = new CurrResponse();
+        try
+        {
+            if (!currencyHandbook.containsKey(request.getCode().toString()))
+                throw new Exception();
+
+            LocalCurr currencyFromHandbook = currencyHandbook.get(request.getCode().toString());
+            String currensyCourse = currencyFromHandbook.value.replace(',','.');
+
+            BigDecimal requestAmount = new BigDecimal(request.getAmount());
+            BigDecimal bdCurrensyCourse = new BigDecimal(currensyCourse);
+            BigDecimal currensyNominal = new BigDecimal(currencyFromHandbook.nominal);
+
+            BigDecimal firstDevide = requestAmount.divide(bdCurrensyCourse,4,RoundingMode.CEILING);
+            BigDecimal secondMultiply = firstDevide.multiply(currensyNominal);
+
+//            BigDecimal firstMultiply = bdCurrensyCourse.multiply(requestAmount);
+//            BigDecimal secondDevide = firstMultiply.divide(new BigDecimal(currencyFromHandbook.nominal),2);
+
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+            df.setMinimumIntegerDigits(0);
+            df.setGroupingUsed(false);
+
+            currResponse.setStatus(0);
+            currResponse.setConvAmount(df.format(secondMultiply));
+            currResponse.setError("Converted successful");
+
+            response.setCurrResponse(currResponse);
+        }
+        catch (Exception e)
+        {
+            currResponse.setStatus(1);
+            currResponse.setConvAmount("0");
+            currResponse.setError("Conversion failed");
+            e.printStackTrace();
+        }
+        response.setCurrResponse(currResponse);
+        return response;
     }
 
     private static void getDailyCurrencyHandbookFromCBServer() {
@@ -33,7 +83,7 @@ class CurrConverter {
         getContentFromCBServer();
         parseContentToLocalHandbook();
 
-        //currencyHandbook.forEach((currCharCode,currValue) -> System.out.println(currCharCode + " --- " + currValue));
+//        currencyHandbook.forEach((currCharCode,currValue) -> System.out.println(currCharCode + " --- " + currValue));
 
     }
 
@@ -49,12 +99,17 @@ class CurrConverter {
 
             for (int temp = 0; temp < valutesList.getLength(); temp++) {
                 Node nNode = valutesList.item(temp);
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     String currCharCode = eElement.getElementsByTagName("CharCode").item(0).getTextContent();
                     String currValue = eElement.getElementsByTagName("Value").item(0).getTextContent();
-                    currencyHandbook.putIfAbsent(currCharCode,currValue);
+                    String currNominal = eElement.getElementsByTagName("Nominal").item(0).getTextContent();
+
+                    LocalCurr localCurr = new LocalCurr();
+                    localCurr.nominal = currNominal;
+                    localCurr.value = currValue;
+
+                    currencyHandbook.putIfAbsent(currCharCode,localCurr);
                 }
             }
         }
