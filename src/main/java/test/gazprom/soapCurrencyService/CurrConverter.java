@@ -30,12 +30,12 @@ class CurrConverter {
     private static Map<String,LocalCurr> currencyHandbook = new HashMap<>();
     private static String content = null;
 
-    static CurrencyConvResponse convertCurrency(CurrencyConvRequest request) {
+    static CurrencyConvResponse convertCurrency(CurrencyConvRequest request, int operationNumber) {
         getDailyCurrencyHandbookFromCBServer();
-        return makeConvertation(request);
+        return makeConvertation(request, operationNumber);
     }
 
-    private static CurrencyConvResponse makeConvertation(CurrencyConvRequest request) {
+    private static CurrencyConvResponse makeConvertation(CurrencyConvRequest request, int operationNumber) {
         CurrencyConvResponse response = new CurrencyConvResponse();
         CurrResponse currResponse = new CurrResponse();
         try
@@ -44,7 +44,12 @@ class CurrConverter {
                 throw new Exception();
 
             LocalCurr currencyFromHandbook = currencyHandbook.get(request.getCode().toString());
-            String currensyCourse = currencyFromHandbook.value.replace(',','.');
+
+            String currensyCourse;
+            if (operationNumber == 0) // здесь должна быть вилка по курсу на покупку/продажу, но в задании нет разделения потому одинаковые значения из одного справочника
+                currensyCourse = currencyFromHandbook.value.replace(',','.');
+            else
+                currensyCourse = currencyFromHandbook.value.replace(',','.');
 
             BigDecimal requestAmount = new BigDecimal(request.getAmount());
             BigDecimal bdCurrensyCourse = new BigDecimal(currensyCourse);
