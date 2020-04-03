@@ -30,12 +30,12 @@ class CurrConverter {
     private static Map<String,LocalCurr> currencyHandbook = new HashMap<>();
     private static String content = null;
 
-    static CurrencyConvResponse convertCurrency(CurrencyConvRequest request, int operationNumber) {
+    static CurrencyConvResponse convertCurrency(CurrencyConvRequest request) {
         getDailyCurrencyHandbookFromCBServer();
-        return makeConvertation(request, operationNumber);
+        return makeConvertation(request);
     }
 
-    private static CurrencyConvResponse makeConvertation(CurrencyConvRequest request, int operationNumber) {
+    private static CurrencyConvResponse makeConvertation(CurrencyConvRequest request) {
         CurrencyConvResponse response = new CurrencyConvResponse();
         CurrResponse currResponse = new CurrResponse();
         try
@@ -46,7 +46,7 @@ class CurrConverter {
             LocalCurr currencyFromHandbook = currencyHandbook.get(request.getCode().toString());
 
             String currensyCourse;
-            if (operationNumber == 0) // здесь должна быть вилка по курсу на покупку/продажу, но в задании нет разделения потому одинаковые значения из одного справочника
+            if (request.getOp() == 0) // здесь должна быть вилка по курсу на покупку/продажу, но в задании нет разделения потому одинаковые значения из одного справочника
                 currensyCourse = currencyFromHandbook.value.replace(',','.');
             else
                 currensyCourse = currencyFromHandbook.value.replace(',','.');

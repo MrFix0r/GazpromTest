@@ -21,7 +21,7 @@ public class ServiceEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "currencyConvRequest")
     @ResponsePayload
     public CurrencyConvResponse getCurrencyConv(@RequestPayload CurrencyConvRequest request) {
-        CurrencyConvResponse response = CurrConverter.convertCurrency(request,request.getOp());
+        CurrencyConvResponse response = CurrConverter.convertCurrency(request);
         System.out.println("Итоговая сумма = " + response.getCurrResponse().getConvAmount()); //duplicate to console
 
         return response;
