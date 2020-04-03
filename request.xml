@@ -3,9 +3,9 @@
     <soapenv:Header/>
     <soapenv:Body>
         <gs:currencyConvRequest>
-            <gs:code>UAH</gs:code>
+            <gs:code>BYN</gs:code>
             <gs:op>0</gs:op>
-            <gs:amount>100.00</gs:amount>
+            <gs:amount>1000.00</gs:amount>
         </gs:currencyConvRequest>
     </soapenv:Body>
 </soapenv:Envelope>
