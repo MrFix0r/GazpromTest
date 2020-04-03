@@ -53,9 +53,6 @@ class CurrConverter {
             BigDecimal firstDevide = requestAmount.divide(bdCurrensyCourse,4,RoundingMode.CEILING);
             BigDecimal secondMultiply = firstDevide.multiply(currensyNominal);
 
-//            BigDecimal firstMultiply = bdCurrensyCourse.multiply(requestAmount);
-//            BigDecimal secondDevide = firstMultiply.divide(new BigDecimal(currencyFromHandbook.nominal),2);
-
             DecimalFormat df = new DecimalFormat();
             df.setMaximumFractionDigits(2);
             df.setMinimumIntegerDigits(0);
